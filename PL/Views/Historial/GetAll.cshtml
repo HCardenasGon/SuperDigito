@@ -1,0 +1,113 @@
+﻿@model ML.Historial
+@*@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/PL.styles.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+<div class="container">
+    <section>
+        <div class="col-md-12">
+            @using (Html.BeginForm("GetAll", "Historial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="col">
+                    @Html.LabelFor(model => model.Usuario.IdUsuario, new { @class = "visually-hidden" })
+
+                    @Html.TextBoxFor(model => model.Usuario.IdUsuario, new { @class = "visually-hidden form-control"})
+
+                    @Html.ValidationMessageFor(model => model.Usuario.IdUsuario, null, new {@class="text-danger"})
+                </div>
+
+                <div class="row">
+
+                    <div class="col">
+                        @Html.LabelFor(model => model.Numero)
+
+                        @Html.TextBoxFor(model => model.Numero, new { @class = "form-control"})
+
+                        @Html.ValidationMessageFor(model => model.Numero, null, new {@class="text-danger"})
+                    </div>
+
+                    <div class="col">
+                        @Html.LabelFor(model => model.Resultado)
+
+                        @Html.TextBoxFor(model => model.Resultado, new { @class = "form-control", @disabled = "disabled"})
+
+                        @Html.ValidationMessageFor(model => model.Resultado, null, new {@class="text-danger"})
+                    </div>
+
+                </div>
+                <div class="col text-center">
+
+                    <input type="submit" value="Calcular" class="btn btn-info " />
+
+                </div>
+            }
+        </div>
+
+    </section>
+
+    <section>
+        @if (Model.Historiales == null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>
+        }
+        <div class="overflow-auto">
+            <table id="dtHorizontalVerticalExample" class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+
+                        <td class="visually-hidden">IdHistorial</td>
+                        <td class="text-center" style="font-weight:bold;">Numero</td>
+                        <td class="text-center" style="font-weight:bold;">Total</td>
+                        <td class="text-center" style="font-weight:bold;">Fecha y hora</td>
+                        <td class="visually-hidden">IdUsuario</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (ML.Historial historial in Model.Historiales)
+                    {
+                        <tr>
+                            <td class="visually-hidden">@historial.IdHistorial</td>
+                            <td class="text-center">@historial.Numero</td>
+                            <td class="text-center">@historial.Resultado</td>
+                            <td class="text-center">@historial.FechaHora</td>
+                            <td class="visually-hidden">@historial.Usuario.IdUsuario</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section>
+        <div class="col-md-12">
+            @using (Html.BeginForm("Delete", "Historial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="col">
+                    @Html.LabelFor(model => model.Usuario.IdUsuario, new { @class = "visually-hidden" })
+
+                    @Html.TextBoxFor(model => model.Usuario.IdUsuario, new { @class = "visually-hidden form-control"})
+
+                    @Html.ValidationMessageFor(model => model.Usuario.IdUsuario, null, new {@class="text-danger"})
+                </div>
+                <div class="col">
+                    <input type="submit" value="Eliminar" class="btn btn-warning" />
+                </div>
+            }
+        </div>
+
+    </section>
+</div>
